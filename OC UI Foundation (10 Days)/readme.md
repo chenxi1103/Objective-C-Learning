@@ -58,5 +58,37 @@
         [button addTarget:self action:@selector(buttonClick) forControlEvents: UIControlEventTouchUpInside]; 
 
         [self.view addSubview:button];
-
         ```
+
+## Day 02 控件的属性
+- Transform属性: 修改控件的位移，缩放，旋转
+    - CGAffineTransform CGAffineTransformMakeTranslation(CGFloat tx, CGFloat ty); (基于当前值进行修改)
+    - CGAffineTransform CGAffineTransformMakeScale(CGFloat sx, CGFloat sy);
+    - CGAffineTransform CGAffineTransformMakeRotation(CGFloat angle);
+- superview
+    - 拿到所有子控件：self.view.subviews
+    - 拿到这个空间属于的大view(父控件）：self.txt.superview
+    - 添加一个子控件：- (void) addSubview: (UIView *)view;
+    - 从父控件中移除： - (void) removeFromSuperview;
+- 根据tag拿到某个控件
+    - [self.view viewWithTag:1000]
+- 图片浏览器
+    - plist: property list -> 本质是一个xml文件（extensible mark language）
+    - 标记语言
+- UIImageView帧动画相关属性和方法
+    - @property(nonatomic, copy) NSArray *animationImages;
+        - 需要播放的序列帧图片数组（里面都是UIImage对象，会按顺序显示里面的图片）
+    - @property(nonatomic) NSTimeInterval animationDuration;
+        - 帧动画的持续时间
+    - @property (nonatomic) NSInteger animationRepeatCount;
+        - 帧动画执行次数（默认无限循环）
+    - (void) startAnimating;
+        - 开始执行帧动画
+    - (void) stopAnimating;
+        - 停止执行帧动画
+    - (BOOL) isAnimating;
+        - 是否正在执行帧动画    
+
+    - 两种加载图片的方式
+        - 通过imageNamed,这种方式是利用缓存的方式加载图片。图片会一直保存在内存中不会释放，下次再使用同样的图片不需要重新加载，加载起来的图片即使没有强类型指针引用了也不会被销毁。所以应用程序占用内存会过大。
+        - 通过imageWithContentsOfFile（不可以直接写图片名称了，而要写清楚文件的路径），只要没有强类型指针引用就会被销毁。（// 等动画执行完毕后要清空内存，延迟执行setAnimationImage = nil,要用performSelector来延迟执行 [self.pic performSelector:@selector(setAnimationImages:) withObject:nil afterDelay:self.pic.animationImages.count * 0.04];）
